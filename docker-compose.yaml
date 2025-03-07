@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  activemq-artemis:
+    container_name: artemis_test
+    build: .
+    restart: unless-stopped
+    ports:
+      - "61614:61616"  # สำหรับ JMS
+      - "8164:8161"    # สำหรับ Web UI
+    environment:
+      ARTEMIS_USERNAME: admin
+      ARTEMIS_PASSWORD: admin
+    volumes:
+      - ${ACTIVEMQ_DATA_PATH}:/var/lib/artemis
+    networks:
+      - activemq_network
+
+volumes:
+  activemq_data:
+
+networks:
+  activemq_network:
+    driver: bridge
